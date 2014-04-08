@@ -8,7 +8,7 @@ defined('MOO_MINSHORTCODE') or die;
  * Usage:
  *  [moo_list item1="value1|value2..." item2="value1|value2..." ...]
  *
- * @copyright  2013 Mohamed Alsharaf
+ * @copyright  2014 Mohamed Alsharaf
  * @author     Mohamed Alsharaf (mohamed.alsharaf@gmail.com)
  * @version    2.0.0
  * @license    The MIT License (MIT)
