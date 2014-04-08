@@ -1,21 +1,20 @@
 <?php
 
 /*
- * Plugin Name: Mini Shortcodes
+ * Plugin Name: Mini ShortCodes
  * Plugin URI: http://
  * Description: This plugin contains different mini "shortcodes". Currently there are 3. (1) Display age based on a date. (2) List of items and dates ordered by the dates ascending or descending. (3) Display item(s) based on defined rule(s).
  * Author: Mohamed Alsharaf
  * Version: 1.0.0
- * Author URI: http://jamandcheese-on-phptoast.com
- * License: http://opensource.org/licenses/MIT
+ * Author URI: http://my.geek.nz
+ * License: The MIT License (MIT)
  */
 define('MOO_MINSHORTCODE', 1);
 
-require_once dirname(__FILE__) . '/src/ShortcodeInterface.php';
+require_once dirname(__FILE__) . '/src/ShortCodeInterface.php';
 
 class Moo_MiniShortcodes
 {
-
     /**
      * List of shortcodes class instances
      *
@@ -31,12 +30,9 @@ class Moo_MiniShortcodes
     public function start()
     {
         try {
-            $this->initShortcode('Age');
-            $this->initShortcode('OrderedList');
-            $this->initShortcode('DisplayMe');
-
-            // make shortcodes available inside widgets
-            add_filter('widget_text', 'do_shortcode');
+            $this->initShortCode('Age');
+            $this->initShortCode('DisplayMe');
+            $this->initShortCode('OrderedList');
         } catch (Exception $e) {
             $message = $e->getMessage() . "\n"
                     . $e->getFile() . " - " . $e->getLine() . "\n"
@@ -49,15 +45,16 @@ class Moo_MiniShortcodes
      * Instantiate a shortcode
      *
      * @param string $name
-     * @return Moo_ShortcodeInterface
+     * @return Moo_ShortCodeInterface
      * @throws Exception
      */
-    protected function initShortcode($name)
+    protected function initShortCode($name)
     {
-        // create new instance of a shortcode if it does not exists
+        // instantiate short code if new
         $tagName = $this->getTagName($name);
         if (!isset($this->shortcodes[$tagName])) {
 
+            // load shortcode class
             $file = dirname(__FILE__) . '/src/' . $name . '.php';
             if (!realpath($file)) {
                 throw new Exception(sprintf("Shortcode '%s' does not exists.", $name));
@@ -67,15 +64,15 @@ class Moo_MiniShortcodes
             $className = 'Moo_MiniShortcodes_' . $name;
             $this->shortcodes[$tagName] = new $className;
 
-            if (!$this->shortcodes[$tagName] instanceof Moo_ShortcodeInterface) {
-                throw new Exception(sprintf("The shortcode '%s' class must be an instance of Moo_ShortcodeInterface.", $tagName));
+            if (!$this->shortcodes[$tagName] instanceof Moo_ShortCodeInterface) {
+                throw new Exception(sprintf("The shortcode '%s' class must be an instance of Moo_ShortCodeInterface.", $tagName));
             }
         }
 
         // register shortcode with wordpress
         add_shortcode($tagName, array($this, 'shortcode'));
 
-        return $this->shortcodes[$name];
+        return $this->shortcodes[$tagName];
     }
 
     /**
