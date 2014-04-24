@@ -179,11 +179,19 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
             return $value;
         }
 
-        $filter = explode(':', $this->filters[$index]);
-        if ($filter[0] === self::PARAM_FILTER_DATE) {
-            $format = isset($filter[1]) ? $filter[1] : null;
-            return $this->filterDate($value, $format);
+        $params = explode(':', $this->filters[$index]);
+        $filter = array_shift($params);
+        $method = 'filter' . ucfirst($filter);
+
+        if (method_exists($this, $method)) {
+            if (!empty($params)) {
+                array_unshift($params, $value);
+                return call_user_func_array(array($this, $method), $params);
+            }
+            return $this->$method($value);
         }
+
+        return $value;
     }
 
     /**
