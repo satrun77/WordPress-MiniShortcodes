@@ -3,9 +3,9 @@
 /*
  * Plugin Name: Mini ShortCodes
  * Plugin URI: http://
- * Description: This plugin contains different mini "shortcodes". Currently there are 3. (1) Display age based on a date. (2) List of items and dates ordered by the dates ascending or descending. (3) Display item(s) based on defined rule(s).
+ * Description: This plugin contains mini "shortcodes". (1) Display age based on a date. (2) Display list of items. (3) Display item(s) based on defined rule(s). (4) List of photos from Instagram. (5) Display list of posts.
  * Author: Mohamed Alsharaf
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author URI: http://my.geek.nz
  * License: The MIT License (MIT)
  */
@@ -32,7 +32,9 @@ class Moo_MiniShortcodes
         try {
             $this->initShortCode('Age');
             $this->initShortCode('DisplayMe');
-            $this->initShortCode('OrderedList');
+            $this->initShortCode('Posts');
+            $this->initShortCode('List');
+            $this->initShortCode('Instagram');
         } catch (Exception $e) {
             $message = $e->getMessage() . "\n"
                     . $e->getFile() . " - " . $e->getLine() . "\n"
