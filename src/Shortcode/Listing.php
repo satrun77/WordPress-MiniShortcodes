@@ -1,22 +1,31 @@
 <?php
 
-defined('MOO_MINSHORTCODE') or die;
+/*
+ * This file is part of the \Moo\MiniShortcode package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Moo\MiniShortcode\Shortcode;
+
+defined('MOO_MINISHORTCODE') or die;
+
+use Moo\MiniShortcode\ShortcodeInterface;
+use Moo\MiniShortcode\MceDialogAwareInterface;
+use \DateTime as DateTime;
 
 /**
  * A shortcode to display a list of items.
  *
- * Usage:
- *  [moo_list item1="value1|value2..." item2="value1|value2..." ...]
- *
- * @copyright  2014 Mohamed Alsharaf
- * @author     Mohamed Alsharaf (mohamed.alsharaf@gmail.com)
- * @version    2.0.0
- * @license    The MIT License (MIT)
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
+class Listing implements ShortcodeInterface, MceDialogAwareInterface
 {
     /** parameters filters */
-    const PARAM_FILTER_STRING = 'string';
+    const PARAM_FILTER_STRING = 'text';
     const PARAM_FILTER_INT = 'int';
     const PARAM_FILTER_DATE = 'date';
 
@@ -37,19 +46,15 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
     /**
      * List of options to be used in the shortcode.
      *
-     * Current options:
-     * - class: Specific class name (CSS)
-     * - delimiter: Character used to specify the separation between item values - Detault is |
-     * - format: Item format - Default is empty
-     * - sort: Sort the items based on the first item value ASC or DESC - Default is DESC
-     * - max: Maximum number of items to show - Default is 5
-     * - tag: The name of the tag to be used as a wrapper tag of the list - Default is div
-     * - before: any text or html to be displayed before the list.
-     * - after: any test or html to be displayed after the list.
-     *
      * @var array
      */
     protected $options = array();
+
+    /**
+     * Default options values
+     *
+     * @var array
+     */
     protected $defaultOptions = array(
         'class'     => '',
         'max'       => '5',
@@ -86,28 +91,16 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
     protected $filters = array();
 
     /**
-     * To override by a subclass
-     *
-     * @return void
-     */
-    protected function init()
-    {
-        
-    }
-
-    /**
      * Shortcode callback method
      *
      * @param array $atts
      * @param string $content
      * @param string $tag
      * @return string
-     * @throws Exception
      */
     public function shortcode($atts = array(), $content = null, $tag = '')
     {
-        // Initiate and then fetch options and items
-        $this->init();
+        // Fetch options and items
         $this->fetchData($atts);
 
         // No items found
@@ -148,8 +141,8 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
      */
     protected function renderItem($key, $values)
     {
-        // Replace {baseurl} with site base URL
-        $item = str_replace('{baseurl}', get_site_url(), $this->options['format']);
+        // Item format
+        $item = $this->getFormat();
 
         // Replace item values with the place holders. {$1} to be replaced with the first value
         foreach ($values as $index => $value) {
@@ -157,7 +150,6 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
         }
 
         // Add class attribute 'last' to the last item
-        // TODO: if class attribute does not exists, then add it.
         if (($key + 1) >= $this->count) {
             $item = preg_replace('/(class(\s*)=(\s*)["|\'])/', '$1last ', $item);
         }
@@ -179,10 +171,12 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
             return $value;
         }
 
+        // Split the parameters from the filter name (first item)
         $params = explode(':', $this->filters[$index]);
         $filter = array_shift($params);
         $method = 'filter' . ucfirst($filter);
 
+        // Execute filter method if exists and pass the parameters as the arguments with the raw value
         if (method_exists($this, $method)) {
             if (!empty($params)) {
                 array_unshift($params, $value);
@@ -251,6 +245,7 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
         $this->items = array();
         $this->options = $this->defaultOptions;
 
+        // Extract items and filters and options from the tag attributes
         foreach ($atts as $name => $value) {
             if (strpos($name, 'item') === 0) {
                 $valueParts = explode($this->options['delimiter'], $value);
@@ -297,6 +292,103 @@ class Moo_MiniShortcodes_List implements Moo_ShortcodeInterface
             return ($a[0] < $b[0]) ? -1 : 1;
         }
         return ($a[0] < $b[0]) ? 1 : -1;
+    }
+
+    /**
+     * Returns item format
+     *
+     * @return string
+     */
+    protected function getFormat()
+    {
+        // Replace {baseurl} with site base URL
+        $item = str_replace('{baseurl}', get_site_url(), $this->options['format']);
+
+        // Replace tags placeholders
+        return str_replace(array('%}', '{%'), array('>', '<'), $item);
+    }
+
+    /**
+     * Form elements for TinyMCE plugin
+     *
+     * @return array
+     */
+    public function getFormElements()
+    {
+        return array(
+            'header'    => array(
+                'type'  => self::ELEMENT_HEADER,
+                'title' => 'General',
+            ),
+            'format'    => array(
+                'type'     => self::ELEMENT_TEXTAREA,
+                'label'    => 'Format',
+                'value'    => $this->defaultOptions['format'],
+                'datatype' => self::PARAM_FILTER_STRING,
+            ),
+            'class'     => array(
+                'type'     => self::ELEMENT_TEXT,
+                'label'    => 'class',
+                'value'    => $this->defaultOptions['class'],
+                'datatype' => self::PARAM_FILTER_STRING,
+            ),
+            'tag'       => array(
+                'type'     => self::ELEMENT_TEXT,
+                'label'    => 'tag',
+                'value'    => $this->defaultOptions['tag'],
+                'datatype' => self::PARAM_FILTER_STRING,
+            ),
+            'max'       => array(
+                'type'     => self::ELEMENT_TEXT,
+                'label'    => 'max',
+                'value'    => $this->defaultOptions['max'],
+                'datatype' => self::PARAM_FILTER_INT,
+            ),
+            'sort'      => array(
+                'type'    => self::ELEMENT_SELECT,
+                'label'   => 'sort',
+                'value'   => $this->defaultOptions['sort'],
+                'options' => array('asc', 'desc', 'rand')
+            ),
+            'before'    => array(
+                'type'     => self::ELEMENT_TEXTAREA,
+                'label'    => 'before',
+                'value'    => $this->defaultOptions['before'],
+                'datatype' => self::PARAM_FILTER_STRING,
+            ),
+            'after'     => array(
+                'type'     => self::ELEMENT_TEXTAREA,
+                'label'    => 'after',
+                'name'     => 'after',
+                'value'    => $this->defaultOptions['after'],
+                'datatype' => self::PARAM_FILTER_STRING,
+            ),
+            'delimiter' => array(
+                'type'     => self::ELEMENT_TEXT,
+                'label'    => 'delimiter',
+                'value'    => $this->defaultOptions['delimiter'],
+                'datatype' => self::PARAM_FILTER_STRING,
+            ),
+            'header2'   => array(
+                'type'  => self::ELEMENT_HEADER,
+                'title' => 'Items',
+            ),
+            'item'      => array(
+                'type'    => self::ELEMENT_ITEM,
+                'filters' => array(
+                    self::PARAM_FILTER_STRING => array(
+                        'label' => 'Text',
+                    ),
+                    self::PARAM_FILTER_INT    => array(
+                        'label' => 'Integer',
+                    ),
+                    self::PARAM_FILTER_DATE   => array(
+                        'label'  => 'Date',
+                        'params' => array('Date format')
+                    ),
+                ),
+            ),
+        );
     }
 
 }

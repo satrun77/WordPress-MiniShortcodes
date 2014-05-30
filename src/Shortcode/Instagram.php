@@ -1,20 +1,24 @@
 <?php
 
-defined('MOO_MINSHORTCODE') or die;
+/*
+ * This file is part of the \Moo\MiniShortcode package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-require_once __DIR__ . '/List.php';
+namespace Moo\MiniShortcode\Shortcode;
+
+defined('MOO_MINISHORTCODE') or die;
 
 /**
  * A shortcode to display a list of photos from an instagram account
- * Usage:
- *  [moo_instagram client_id="" client_token="" user_id=""]
  *
- * @copyright  2014 Mohamed Alsharaf
- * @author     Mohamed Alsharaf (mohamed.alsharaf@gmail.com)
- * @version    1.0.0
- * @license    The MIT License (MIT)
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class Moo_MiniShortcodes_Instagram extends Moo_MiniShortcodes_List
+class Instagram extends Listing
 {
     /**
      * Cache file life time in seconds
@@ -23,7 +27,7 @@ class Moo_MiniShortcodes_Instagram extends Moo_MiniShortcodes_List
      */
     private $cacheTime = '86400';
 
-    protected function init()
+    public function __construct()
     {
         // Defines new options
         $this->defaultOptions['client_id'] = '';
@@ -84,7 +88,7 @@ class Moo_MiniShortcodes_Instagram extends Moo_MiniShortcodes_List
     /**
      * Fetch data from cache file
      *
-     * @return \Moo_MiniShortcodes_Instagram
+     * @return \Moo\MiniShortcode\Shortcode\Instagram
      */
     protected function fetchItems()
     {
@@ -106,6 +110,11 @@ class Moo_MiniShortcodes_Instagram extends Moo_MiniShortcodes_List
         return $this;
     }
 
+    /**
+     * Fetch data from instagram or cache file.
+     *
+     * @param array $atts
+     */
     protected function fetchData($atts)
     {
         // Fetch options
@@ -120,7 +129,7 @@ class Moo_MiniShortcodes_Instagram extends Moo_MiniShortcodes_List
             $response = $request->request($this->getUrl($this->options['user_id'], $this->options['client_id']), array(
                 'timeout' => 300,
                 'headers' => array(
-                    'User-Agent' => $_SERVER['HTTP_USER_AGENT'],
+                    'User-Agent' => filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'),
                 )
             ));
 
@@ -130,6 +139,36 @@ class Moo_MiniShortcodes_Instagram extends Moo_MiniShortcodes_List
         }
 
         return $this->fetchItems();
+    }
+
+    /**
+     * Form elements for TinyMCE plugin
+     *
+     * @return array
+     */
+    public function getFormElements()
+    {
+        $elements = parent::getFormElements();
+
+        // Modify parent elments.
+        $elements['header2']['title'] = 'Account details';
+        unset($elements['item']);
+
+        // New elements
+        $elements['client_id'] = array(
+            'type'     => self::ELEMENT_TEXT,
+            'label'    => 'client_id',
+            'value'    => $this->defaultOptions['client_id'],
+            'datatype' => self::PARAM_FILTER_STRING,
+        );
+        $elements['user_id'] = array(
+            'type'     => self::ELEMENT_TEXT,
+            'label'    => 'user_id',
+            'value'    => $this->defaultOptions['user_id'],
+            'datatype' => self::PARAM_FILTER_STRING,
+        );
+
+        return $elements;
     }
 
 }
