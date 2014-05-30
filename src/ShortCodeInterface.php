@@ -1,8 +1,24 @@
 <?php
 
-defined('MOO_MINSHORTCODE') or die;
+/*
+ * This file is part of the \Moo\MiniShortcode package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-interface Moo_ShortcodeInterface
+namespace Moo\MiniShortcode;
+
+defined('MOO_MINISHORTCODE') or die;
+
+/**
+ * ShortcodeInterface is an interface that must be implemented by a shortcode class
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
+interface ShortcodeInterface
 {
 
     public function shortcode($atts = array(), $content = null, $tag = '');

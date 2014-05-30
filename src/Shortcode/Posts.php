@@ -1,27 +1,42 @@
 <?php
 
-defined('MOO_MINSHORTCODE') or die;
+/*
+ * This file is part of the \Moo\MiniShortcode package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-require_once __DIR__ . '/List.php';
+namespace Moo\MiniShortcode\Shortcode;
+
+defined('MOO_MINISHORTCODE') or die;
+
+use \WP_Query as WP_Query;
 
 /**
  * A shortcode to display posts
- * 
- * @copyright  2014 Mohamed Alsharaf
- * @author     Mohamed Alsharaf (mohamed.alsharaf@gmail.com)
- * @version    1.0.0
- * @license    The MIT License (MIT)
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
+class Posts extends Listing
 {
+    const PARAM_FILTER_TIME = 'time';
+    const PARAM_FILTER_PERMALINK = 'permalink';
+    const PARAM_FILTER_TITLE = 'title';
+    const PARAM_FILTER_EXCERPT = 'excerpt';
+    const PARAM_FILTER_COMMENTSLINK = 'commentsLink';
+    const PARAM_FILTER_TAGLIST = 'tagList';
+
     /**
      * An instance of WP_Query
-     * 
-     * @var WP_Query 
+     *
+     * @var WP_Query
      */
     protected $posts;
 
-    protected function init()
+    public function __construct()
     {
         $this->defaultOptions['format'] = "<div class='msc-post'>"
                 . "<div class='date'><span>{\$1}</span><span>{\$2}</span></div>"
@@ -32,8 +47,15 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
                 . "<li>{\$7}</li>"
                 . "</ul>"
                 . "</div>";
+
         $this->filters = array(
-            'time:j', 'time:M', 'permalink', 'title', 'excerpt', 'commentsLink:No comments:1 comment:% comments', 'tagList'
+            self::PARAM_FILTER_TIME . ':j',
+            self::PARAM_FILTER_TIME . ':M',
+            self::PARAM_FILTER_PERMALINK,
+            self::PARAM_FILTER_TITLE,
+            self::PARAM_FILTER_EXCERPT,
+            self::PARAM_FILTER_COMMENTSLINK . ':No comments:1 comment:% comments',
+            self::PARAM_FILTER_TAGLIST,
         );
     }
 
@@ -46,7 +68,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
      */
     protected function renderItem($key, $values)
     {
-        $item = $this->options['format'];
+        $item = $this->getFormat();
 
         // Get the next post
         $this->posts->the_post();
@@ -57,7 +79,6 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
         }
 
         // Add class attribute 'last' to the last item
-        // TODO: if class attribute does not exists, then add it.
         if (($key + 1) >= $this->count) {
             $item = preg_replace('/(class(\s*)=(\s*)["|\'])/', '$1last ', $item);
         }
@@ -70,7 +91,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
 
     /**
      * Retrieve post url
-     * 
+     *
      * @return string
      */
     protected function filterPermalink()
@@ -80,7 +101,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
 
     /**
      * Retrieve post excerpt
-     * 
+     *
      * @return string
      */
     protected function filterExcerpt()
@@ -90,7 +111,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
 
     /**
      * Retrieve post title
-     * 
+     *
      * @return string
      */
     protected function filterTitle()
@@ -100,7 +121,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
 
     /**
      * Retrieve post time
-     * 
+     *
      * @param int $index
      * @param string $format
      * @return string
@@ -112,7 +133,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
 
     /**
      * Retrieve post tag list
-     * 
+     *
      * @param int $index
      * @param string $seperator
      * @return string
@@ -124,7 +145,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
 
     /**
      * Retrieve post comments link
-     * 
+     *
      * @param int $index
      * @param string $zero
      * @param string $one
@@ -143,7 +164,7 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
 
     /**
      * Fetch, sort, & count the ordered items
-     * 
+     *
      * @param array $atts
      */
     protected function fetchData($atts)
@@ -181,6 +202,55 @@ class Moo_MiniShortCodes_Posts extends Moo_MiniShortcodes_List
         }
 
         return $this;
+    }
+
+    /**
+     * Form elements for TinyMCE plugin
+     *
+     * @return array
+     */
+    public function getFormElements()
+    {
+        $elements = parent::getFormElements();
+
+        // Modify parent elments.
+        $elements['sort']['options'][] = 'first';
+        $elements['sort']['options'][] = 'last';
+        unset($elements['delimiter']);
+        unset($elements['item']);
+        $elements['header2']['title'] = 'Filters';
+
+        // New element
+        $elements['filter'] = array(
+            'type'    => self::ELEMENT_FILTER,
+            'filters' => array(
+                self::PARAM_FILTER_TITLE        => array(
+                    'label' => 'Title',
+                ),
+                self::PARAM_FILTER_TIME         => array(
+                    'label'  => 'Time',
+                    'params' => array('Date format'),
+                ),
+                self::PARAM_FILTER_EXCERPT      => array(
+                    'label' => 'Excerpt',
+                ),
+                self::PARAM_FILTER_PERMALINK    => array(
+                    'label' => 'Permalink',
+                ),
+                self::PARAM_FILTER_COMMENTSLINK => array(
+                    'label'    => 'Comment link',
+                    'params'   => array('No comments', 'One comment', 'Comments', 'Comment disabled'),
+                    'defaults' => array('No comments', '1 comment', '% comments', 'Comments Off'),
+                ),
+                self::PARAM_FILTER_TAGLIST      => array(
+                    'label'    => 'Tag list',
+                    'params'   => array('Seperator'),
+                    'defaults' => array(', '),
+                ),
+            ),
+        );
+
+        return $elements;
     }
 
 }

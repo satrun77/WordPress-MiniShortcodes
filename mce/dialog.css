@@ -1,0 +1,144 @@
+#msc-dialog .close {
+    display:none;
+}
+
+#msc-dialog .submitbox,.msc-item-list li {
+    overflow:hidden;
+}
+
+#msc-dialog h2 {
+    background:transparent url(../../wp-includes/images/toggle-arrow.png) 0 5px no-repeat;
+    border-bottom:1px solid #ddd;
+    border-top:1px solid #ddd;
+    cursor:pointer;
+    margin:-1px 0 0;
+    padding:10px;
+}
+
+.msc-delete-item {
+    float:left;
+    width:7%;
+}
+
+.msc-delete-value {
+    padding:2% 2% 0;
+}
+
+.msc-delete-value,.msc-item-value {
+    display:inline;
+    float:left;
+    margin-bottom:5px;
+}
+
+.msc-filter-options {
+    background:#fcfcfc;
+    border:1px solid #ddd;
+    display:none;
+    margin:10px 0 0;
+    padding:1%;
+    overflow: hidden;
+}
+
+.msc-filter-options h4 {
+    margin:0;
+}
+
+.msc-form {
+    margin:0 1% 10px;
+}
+
+.msc-form .msc-element input,.msc-form .msc-element select,.msc-form .msc-element textarea {
+    padding: 0.5%;
+    width: 81%;
+}
+
+.msc-form .msc-element label {
+    float: left;
+    font-weight: 700;
+    padding: 1%;
+    width: 16%;
+    clear:left;
+}
+
+.msc-form .msc-element .msc-filter-options label  {
+    width: 20%;
+    margin-top: 8px;
+}
+
+.msc-form .msc-element .msc-filter-options input {
+    width:77%;
+}
+
+.msc-form .msc-element,.msc-item-value label,.msc-item-value input,.msc-item-value select,.msc-item-value select {
+    margin-top:10px;
+}
+
+.msc-item-label {
+    border-bottom:1px solid #ddd;
+    float:left;
+    padding:1% 0;
+    width:100%;
+}
+
+.msc-item-label h4 {
+    float:left;
+    margin:0;
+}
+
+.msc-item-list {
+    margin:0;
+    overflow:hidden;
+    padding:0;
+}
+
+.msc-item-value {
+    width:90%;
+}
+
+.msc-item-value label,.msc-filter-options label {
+    padding:5px 0;
+}
+
+.msc-item-value-inner {
+    margin:0;
+    overflow:hidden;
+    padding:0;
+}
+
+.msc-item-value-wrapper {
+    border-bottom:1px solid #ddd;
+    border-left:1px solid #ddd;
+    margin:0;
+    padding-bottom:5px;
+}
+
+.msc-item-values-wrapper {
+    clear:left;
+    float:left;
+    margin:0 0 0 5%;
+    padding:0;
+    width:95%;
+}
+
+.msc-toolbar {
+    border-bottom:1px solid #ddd;
+    margin:0 0 5px;
+    overflow:hidden;
+    padding:0 0 5px;
+}
+
+.msc-toolbar li {
+    display:inline;
+    float:right;
+    margin:0;
+}
+
+.msc-toolbar li a {
+    padding:0 5px;
+}
+
+.msc-update {
+    float:right;
+    padding-top: 8px;
+    padding-right: 1%;
+}
