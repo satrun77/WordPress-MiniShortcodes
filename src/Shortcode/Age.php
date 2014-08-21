@@ -11,8 +11,6 @@
 
 namespace Moo\MiniShortcode\Shortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 use Moo\MiniShortcode\ShortcodeInterface;
 use Moo\MiniShortcode\MceDialogAwareInterface;
 use \DateTime as DateTime;
@@ -29,9 +27,9 @@ class Age implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Shortcode callback method
      *
-     * @param array $atts
-     * @param string $content
-     * @param string $tag
+     * @param  array     $atts
+     * @param  string    $content
+     * @param  string    $tag
      * @return string
      * @throws Exception
      */
@@ -49,6 +47,7 @@ class Age implements ShortcodeInterface, MceDialogAwareInterface
         }
 
         $append = isset($atts['append']) ? $atts['append'] : __(' years old');
+
         return $diff . $append;
     }
 

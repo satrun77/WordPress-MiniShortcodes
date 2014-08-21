@@ -11,8 +11,6 @@
 
 namespace Moo\MiniShortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 use \Exception as Exception;
 
 /**
@@ -42,9 +40,9 @@ class ShortcodePlugin
     /**
      * Callback function to be triggered by wordpress to process a shortcode
      *
-     * @param array $atts
-     * @param string $content
-     * @param string $tag
+     * @param  array     $atts
+     * @param  string    $content
+     * @param  string    $tag
      * @return type
      * @throws Exception
      */
@@ -61,6 +59,7 @@ class ShortcodePlugin
             if (isset($atts['debug']) && $atts['debug'] == true) {
                 return $e->getMessage();
             }
+
             return '';
         }
     }
@@ -68,7 +67,7 @@ class ShortcodePlugin
     /**
      * Set a shortcode to be activated
      *
-     * @param string $name
+     * @param  string                             $name
      * @return \Moo\MiniShortcode\ShortcodePlugin
      */
     public function addShortcode($name)
@@ -81,7 +80,7 @@ class ShortcodePlugin
 
             // Instantiate a valid shortcode
             $className = '\\' . __NAMESPACE__ . '\\Shortcode\\' . $name;
-            $this->shortcodes[$name] = new $className;
+            $this->shortcodes[$name] = new $className();
 
             if (!$this->shortcodes[$name] instanceof ShortcodeInterface) {
                 throw new Exception(sprintf("The shortcode '%s' class must be an instance of %sShortcodeInterface.", __NAMESPACE__, $tagName));
@@ -97,7 +96,7 @@ class ShortcodePlugin
     /**
      * Remove a minishortcode from Wordpress
      *
-     * @param string $name
+     * @param  string                             $name
      * @return \Moo\MiniShortcode\ShortcodePlugin
      */
     public function removeShortcode($name)
@@ -113,7 +112,7 @@ class ShortcodePlugin
     /**
      * Whether or not a shortcode exists
      *
-     * @param string $name
+     * @param  string  $name
      * @return boolean
      */
     public function hasShortcode($name)
@@ -124,7 +123,7 @@ class ShortcodePlugin
     /**
      * Returns shortcode object
      *
-     * @param string $name
+     * @param  string                                        $name
      * @return boolean|\Moo\MiniShortcode\ShortcodeInterface
      */
     public function getShortcode($name)
@@ -149,13 +148,13 @@ class ShortcodePlugin
     /**
      * Add or remove Mce plugin from WordPress
      *
-     * @param boolean $status
+     * @param  boolean                            $status
      * @return \Moo\MiniShortcode\ShortcodePlugin
      */
     public function addMcePlugin($status = true)
     {
         $function = !$status ? 'remove_action' : 'add_action';
-        $mce = new McePlugin;
+        $mce = new McePlugin();
         $mce->setPlugin($this);
 
         $function('init', array($mce, 'init'));
@@ -166,7 +165,7 @@ class ShortcodePlugin
     /**
      * Construct shortcode tag name
      *
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     protected function getTagName($name)
@@ -177,7 +176,7 @@ class ShortcodePlugin
     /**
      * Autoload minishortcode classes
      *
-     * @param string $class
+     * @param  string  $class
      * @return boolean
      */
     public function autoload($class)

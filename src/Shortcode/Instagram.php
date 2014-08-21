@@ -11,8 +11,6 @@
 
 namespace Moo\MiniShortcode\Shortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 /**
  * A shortcode to display a list of photos from an instagram account
  *
@@ -37,8 +35,8 @@ class Instagram extends Listing
     /**
      * Returns API url to retrieve recent photos
      *
-     * @param int $userId
-     * @param string $clientId
+     * @param  int    $userId
+     * @param  string $clientId
      * @return string
      */
     protected function getUrl($userId, $clientId)
@@ -68,13 +66,14 @@ class Instagram extends Listing
         if (!file_exists($this->getCacheFile()) || $timeDiff > $this->cacheTime) {
             return false;
         }
+
         return true;
     }
 
     /**
      * Save API response to cache file
      *
-     * @param string $content
+     * @param  string  $content
      * @return boolean
      */
     protected function writeToCache($content)
@@ -82,6 +81,7 @@ class Instagram extends Listing
         if (file_put_contents($this->getCacheFile(), $content) !== false) {
             return true;
         }
+
         return false;
     }
 

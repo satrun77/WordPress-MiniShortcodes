@@ -9,10 +9,8 @@
  * file that was distributed with this source code.
  */
 
-defined('ABSPATH') or exit;
-
 if (!class_exists('_WP_Editors')) {
-    require( ABSPATH . WPINC . '/class-wp-editor.php' );
+    require ABSPATH . WPINC . '/class-wp-editor.php';
 }
 
 $stringList = array(

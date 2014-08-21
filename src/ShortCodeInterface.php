@@ -11,14 +11,12 @@
 
 namespace Moo\MiniShortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 /**
  * ShortcodeInterface is an interface that must be implemented by a shortcode class
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-interface ShortcodeInterface
+interface ShortCodeInterface
 {
 
     public function shortcode($atts = array(), $content = null, $tag = '');

@@ -11,8 +11,6 @@
 
 namespace Moo\MiniShortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 /**
  * McePlugin is a class for TinyMCE plugin.
  *
@@ -37,12 +35,13 @@ class McePlugin
     /**
      * Set minishortcode main class
      *
-     * @param \Moo\MiniShortcode\ShortcodePlugin $plugin
+     * @param  \Moo\MiniShortcode\ShortcodePlugin $plugin
      * @return \Moo\MiniShortcode\ShortcodePlugin
      */
     public function setPlugin(ShortcodePlugin $plugin)
     {
         $this->plugin = $plugin;
+
         return $this;
     }
 
@@ -82,43 +81,46 @@ class McePlugin
     /**
      * Register locale file
      *
-     * @param array $locale
+     * @param  array  $locale
      * @return string
      */
     public function registerLocale($locale)
     {
         $locale['minishotcodes'] = $this->gePath('mce_locale.php');
+
         return $locale;
     }
 
     /**
      * Register the TinyMCE plugin JS file
      *
-     * @param array $plugin
+     * @param  array  $plugin
      * @return string
      */
     public function registerPlugin($plugin)
     {
         $plugin['minishotcodes'] = $this->getUrl('minishotcodes_tinymce.js');
+
         return $plugin;
     }
 
     /**
      * Register the TinyMCE button
      *
-     * @param array $buttons
+     * @param  array  $buttons
      * @return string
      */
     public function registerButton($buttons)
     {
         $buttons[] = 'minishotcodes_button';
+
         return $buttons;
     }
 
     /**
      * Register CSS used in the content of TinyMCE
      *
-     * @param array $plugin
+     * @param  array $plugin
      * @return array
      */
     public function registerMceStyles($plugin)
@@ -129,6 +131,7 @@ class McePlugin
             $plugin['content_css'] = '';
         }
         $plugin['content_css'] .= $this->getUrl('editor.css');
+
         return $plugin;
     }
 
@@ -166,7 +169,7 @@ class McePlugin
     /**
      * Render form elements for a shortcode
      *
-     * @param array $elements
+     * @param  array  $elements
      * @return string
      */
     protected function renderDialogForm(array $elements)
@@ -195,8 +198,8 @@ class McePlugin
     /**
      * Render a label element
      *
-     * @param string $name
-     * @param array $element
+     * @param  string $name
+     * @param  array  $element
      * @return string
      */
     protected function renderLabel($name, array $element)
@@ -207,8 +210,8 @@ class McePlugin
     /**
      * Render text field element
      *
-     * @param string $name
-     * @param array $element
+     * @param  string $name
+     * @param  array  $element
      * @return string
      */
     public function renderTextElement($name, array $element)
@@ -217,14 +220,15 @@ class McePlugin
         if (!empty($element['datatype'])) {
             $dataType = 'data-datatype="' . $element['datatype'] . '"';
         }
+
         return sprintf('<input id="msc-%s-field" type="text" name="%s" value="%s" %s/>', $name, $name, $element['value'], $dataType);
     }
 
     /**
      * Render textarea field element
      *
-     * @param string $name
-     * @param array $element
+     * @param  string $name
+     * @param  array  $element
      * @return string
      */
     public function renderTextareaElement($name, array $element)
@@ -235,8 +239,8 @@ class McePlugin
     /**
      * Render select element
      *
-     * @param string $name
-     * @param array $element
+     * @param  string $name
+     * @param  array  $element
      * @return string
      */
     public function renderSelectElement($name, array $element)
@@ -261,8 +265,8 @@ class McePlugin
     /**
      * Render item element. Toolbar with 2 optins to add item or value, and container ul tag for list of items
      *
-     * @param string $name
-     * @param array $element
+     * @param  string $name
+     * @param  array  $element
      * @return string
      */
     protected function renderItemElement($name, array $element)
@@ -279,8 +283,8 @@ class McePlugin
     /**
      * Render filter element. Toolbar with 1 optin to add a filter, and container ul tag for list of filters
      *
-     * @param string $name
-     * @param array $element
+     * @param  string $name
+     * @param  array  $element
      * @return string
      */
     protected function renderFilterElement($name, array $element)
@@ -296,8 +300,8 @@ class McePlugin
     /**
      * Render header tag
      *
-     * @param string $name
-     * @param array $element
+     * @param  string $name
+     * @param  array  $element
      * @return string
      */
     public function renderHeaderElement($name, array $element)
@@ -308,7 +312,7 @@ class McePlugin
     /**
      * Returns a url to a file in the plugin
      *
-     * @param string $file
+     * @param  string $file
      * @return string
      */
     protected function getUrl($file)
@@ -319,7 +323,7 @@ class McePlugin
     /**
      * Returns a pth to a file in the plugin
      *
-     * @param string $file
+     * @param  string $file
      * @return string
      */
     protected function gePath($file)
