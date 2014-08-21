@@ -11,8 +11,6 @@
 
 namespace Moo\MiniShortcode\Shortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 use Moo\MiniShortcode\ShortcodeInterface;
 use Moo\MiniShortcode\MceDialogAwareInterface;
 use \DateTime as DateTime;
@@ -93,9 +91,9 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Shortcode callback method
      *
-     * @param array $atts
-     * @param string $content
-     * @param string $tag
+     * @param  array  $atts
+     * @param  string $content
+     * @param  string $tag
      * @return string
      */
     public function shortcode($atts = array(), $content = null, $tag = '')
@@ -135,8 +133,8 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Render an item in the list
      *
-     * @param int $key
-     * @param array $values
+     * @param  int    $key
+     * @param  array  $values
      * @return string
      */
     protected function renderItem($key, $values)
@@ -160,8 +158,8 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Filter an item value
      *
-     * @param string $value
-     * @param int $index
+     * @param  string $value
+     * @param  int    $index
      * @return mix
      */
     protected function filterValue($value, $index)
@@ -180,8 +178,10 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
         if (method_exists($this, $method)) {
             if (!empty($params)) {
                 array_unshift($params, $value);
+
                 return call_user_func_array(array($this, $method), $params);
             }
+
             return $this->$method($value);
         }
 
@@ -191,8 +191,8 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Filter a value to an string date
      *
-     * @param string $value
-     * @param string $format
+     * @param  string $value
+     * @param  string $format
      * @return string
      */
     protected function filterDate($value, $format)
@@ -202,13 +202,14 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
         }
 
         $date = new DateTime($value);
+
         return $date->format($format);
     }
 
     /**
      * Filter a value to an integer
      *
-     * @param mix $value
+     * @param  mix $value
      * @return int
      */
     protected function filterInt($value)
@@ -219,8 +220,8 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Filter an option value
      *
-     * @param string $value
-     * @param string $filter
+     * @param  string     $value
+     * @param  string     $filter
      * @return string|int
      */
     protected function filterOption($value, $filter = self::PARAM_FILTER_STRING)
@@ -278,8 +279,8 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
      * Callback method used to sort the items using 'usort'. See self::fetchData()
      * Sorting the items based on the first value
      *
-     * @param array $a
-     * @param array $b
+     * @param  array $a
+     * @param  array $b
      * @return int
      */
     protected function sortItems($a, $b)
@@ -291,6 +292,7 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
         if ($this->options['sort'] == 'asc') {
             return ($a[0] < $b[0]) ? -1 : 1;
         }
+
         return ($a[0] < $b[0]) ? 1 : -1;
     }
 

@@ -21,7 +21,7 @@ include 'src/ShortcodePlugin.php';
 
 // Activate the plugin
 try {
-    $mooShortcode = new \Moo\MiniShortcode\ShortcodePlugin;
+    $mooShortcode = new \Moo\MiniShortcode\ShortcodePlugin();
     $mooShortcode
             ->addShortcode('age')
             ->addShortcode('posts')

@@ -11,8 +11,6 @@
 
 namespace Moo\MiniShortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 /**
  * MceDialogAwareInterface is an interface for shortcode class to implement if it can be used within the TinyMCE plugin.
  *

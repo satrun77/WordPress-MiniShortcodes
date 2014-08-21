@@ -11,8 +11,6 @@
 
 namespace Moo\MiniShortcode\Shortcode;
 
-defined('MOO_MINISHORTCODE') or die;
-
 use \WP_Query as WP_Query;
 
 /**
@@ -62,8 +60,8 @@ class Posts extends Listing
     /**
      * Render an item in the list
      *
-     * @param int $key
-     * @param array $values
+     * @param  int    $key
+     * @param  array  $values
      * @return string
      */
     protected function renderItem($key, $values)
@@ -122,8 +120,8 @@ class Posts extends Listing
     /**
      * Retrieve post time
      *
-     * @param int $index
-     * @param string $format
+     * @param  int    $index
+     * @param  string $format
      * @return string
      */
     protected function filterTime($index, $format)
@@ -134,8 +132,8 @@ class Posts extends Listing
     /**
      * Retrieve post tag list
      *
-     * @param int $index
-     * @param string $seperator
+     * @param  int    $index
+     * @param  string $seperator
      * @return string
      */
     protected function filterTagList($index, $seperator = ', ')
@@ -146,11 +144,11 @@ class Posts extends Listing
     /**
      * Retrieve post comments link
      *
-     * @param int $index
-     * @param string $zero
-     * @param string $one
-     * @param string $more
-     * @param string $none
+     * @param  int    $index
+     * @param  string $zero
+     * @param  string $one
+     * @param  string $more
+     * @param  string $none
      * @return string
      */
     protected function filterCommentsLink($index, $zero = false, $one = false, $more = false, $none = false)
@@ -159,6 +157,7 @@ class Posts extends Listing
         comments_popup_link($zero, $one, $more, '', $none);
         $output = ob_get_contents();
         ob_end_clean();
+
         return $output;
     }
 
