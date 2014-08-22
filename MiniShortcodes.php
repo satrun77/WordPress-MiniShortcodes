@@ -9,7 +9,6 @@
  * Author URI: http://my.geek.nz
  * License: The MIT License (MIT)
  */
-define('MOO_MINISHORTCODE', 1);
 
 // PHP 5.3 is minimum requirement for this plugin.
 if (version_compare(PHP_VERSION, '5.3', '<')) {

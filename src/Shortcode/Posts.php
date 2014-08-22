@@ -66,15 +66,11 @@ class Posts extends Listing
      */
     protected function renderItem($key, $values)
     {
-        $item = $this->getFormat();
-
         // Get the next post
         $this->posts->the_post();
 
         // Replace item place holders using the current defined filters
-        foreach ($this->filters as $index => $filter) {
-            $item = str_replace('{$' . ($index + 1) . '}', $this->filterValue($key, $index), $item);
-        }
+        $item = $this->replacePlaceholders($values, true);
 
         // Add class attribute 'last' to the last item
         if (($key + 1) >= $this->count) {
