@@ -85,10 +85,10 @@ class ShortcodePlugin
             if (!$this->shortcodes[$name] instanceof ShortcodeInterface) {
                 throw new Exception(sprintf("The shortcode '%s' class must be an instance of %sShortcodeInterface.", __NAMESPACE__, $tagName));
             }
-        }
 
-        // Register the shortcode with wordpress
-        add_shortcode($tagName, array($this, 'shortcode'));
+            // Register the shortcode with wordpress
+            add_shortcode($tagName, array($this, 'shortcode'));
+        }
 
         return $this;
     }

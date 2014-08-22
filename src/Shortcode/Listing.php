@@ -140,12 +140,7 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     protected function renderItem($key, $values)
     {
         // Item format
-        $item = $this->getFormat();
-
-        // Replace item values with the place holders. {$1} to be replaced with the first value
-        foreach ($values as $index => $value) {
-            $item = str_replace('{$' . ($index + 1) . '}', $this->filterValue($value, $index), $item);
-        }
+        $item = $this->replacePlaceholders($values);
 
         // Add class attribute 'last' to the last item
         if (($key + 1) >= $this->count) {
@@ -156,11 +151,32 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     }
 
     /**
+     * Replace item values with the place holders. {$1} to be replaced with the first value
+     * With filters the keys are used to replace the placeholders instead of the value (See Posts shortcode).
+     *
+     * @param  array  $values
+     * @param boolean $useKeys
+     * @return string
+     */
+    protected function replacePlaceholders(array $values, $useKeys = false)
+    {
+        $item = $this->getFormat();
+        foreach ($values as $index => $value) {
+            if ($useKeys) {
+                $value = $index;
+            }
+            $item = str_replace('{$' . ($index + 1) . '}', $this->filterValue($value, $index), $item);
+        }
+
+        return $item;
+    }
+
+    /**
      * Filter an item value
      *
      * @param  string $value
      * @param  int    $index
-     * @return mix
+     * @return string|null
      */
     protected function filterValue($value, $index)
     {
