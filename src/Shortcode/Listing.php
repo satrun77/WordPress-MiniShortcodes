@@ -107,7 +107,6 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
         }
 
         $output = '';
-
         // Output before the list
         if (!empty($this->options['before'])) {
             $output .= $this->options['before'];
@@ -154,8 +153,8 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
      * Replace item values with the place holders. {$1} to be replaced with the first value
      * With filters the keys are used to replace the placeholders instead of the value (See Posts shortcode).
      *
-     * @param  array  $values
-     * @param boolean $useKeys
+     * @param  array   $values
+     * @param  boolean $useKeys
      * @return string
      */
     protected function replacePlaceholders(array $values, $useKeys = false)
@@ -174,8 +173,8 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Filter an item value
      *
-     * @param  string $value
-     * @param  int    $index
+     * @param  string      $value
+     * @param  int         $index
      * @return string|null
      */
     protected function filterValue($value, $index)
@@ -261,6 +260,10 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
         $this->count = 0;
         $this->items = array();
         $this->options = $this->defaultOptions;
+
+        if (!is_array($atts)) {
+            return $this;
+        }
 
         // Extract items and filters and options from the tag attributes
         foreach ($atts as $name => $value) {

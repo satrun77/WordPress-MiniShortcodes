@@ -70,7 +70,7 @@ class Posts extends Listing
         $this->posts->the_post();
 
         // Replace item place holders using the current defined filters
-        $item = $this->replacePlaceholders($values, true);
+        $item = $this->replacePlaceholders($this->filters, true);
 
         // Add class attribute 'last' to the last item
         if (($key + 1) >= $this->count) {

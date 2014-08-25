@@ -87,7 +87,9 @@ class ShortcodePlugin
             }
 
             // Register the shortcode with wordpress
-            add_shortcode($tagName, array($this, 'shortcode'));
+            if (!shortcode_exists($tagName)) {
+                add_shortcode($tagName, array($this, 'shortcode'));
+            }
         }
 
         return $this;
@@ -103,8 +105,8 @@ class ShortcodePlugin
     {
         if ($this->hasShortcode($name)) {
             unset($this->shortcodes[$name]);
-            remove_shortcode($this->getTagName($name));
         }
+        remove_shortcode($this->getTagName($name));
 
         return $this;
     }
@@ -176,14 +178,15 @@ class ShortcodePlugin
     /**
      * Autoload minishortcode classes
      *
-     * @param  string  $class
+     * @param  string  $classFullname
      * @return boolean
      */
-    public function autoload($class)
+    public function autoload($classFullname)
     {
         // work around for PHP 5.3.0 - 5.3.2 https://bugs.php.net/50731
-        if ('\\' == $class[0]) {
-            $class = substr($class, 1);
+        $class = $classFullname;
+        if ('\\' == $classFullname[0]) {
+            $class = substr($classFullname, 1);
         }
 
         // Only autoload \Moo\MiniShortcode classes, & clear prefix from class name
@@ -193,9 +196,12 @@ class ShortcodePlugin
         $class = str_replace(__NAMESPACE__, '', $class);
 
         // Load class file
-        include __DIR__ . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+        $file = __DIR__ . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+        if (file_exists($file)) {
+            return include $file;
+        }
 
-        return true;
+        throw new \Exception(sprintf("Unable to load the class '%s'.", $classFullname));
     }
 
 }
