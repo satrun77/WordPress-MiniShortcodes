@@ -12,6 +12,7 @@
 namespace Moo\MiniShortcode\Shortcode;
 
 use \WP_Query as WP_Query;
+use \Moo\MiniShortcode\MceDialogAwareInterface;
 
 /**
  * A shortcode to display posts
@@ -217,7 +218,7 @@ class Posts extends Listing
 
         // New element
         $elements['filter'] = array(
-            'type'    => self::ELEMENT_FILTER,
+            'type'    => MceDialogAwareInterface::ELEMENT_FILTER,
             'filters' => array(
                 self::PARAM_FILTER_TITLE        => array(
                     'label' => 'Title',
