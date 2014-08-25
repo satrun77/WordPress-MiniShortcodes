@@ -156,13 +156,13 @@ class Instagram extends Listing
 
         // New elements
         $elements['client_id'] = array(
-            'type'     => self::ELEMENT_TEXT,
+            'type'     => MceDialogAwareInterface::ELEMENT_TEXT,
             'label'    => 'client_id',
             'value'    => $this->defaultOptions['client_id'],
             'datatype' => self::PARAM_FILTER_STRING,
         );
         $elements['user_id'] = array(
-            'type'     => self::ELEMENT_TEXT,
+            'type'     => MceDialogAwareInterface::ELEMENT_TEXT,
             'label'    => 'user_id',
             'value'    => $this->defaultOptions['user_id'],
             'datatype' => self::PARAM_FILTER_STRING,

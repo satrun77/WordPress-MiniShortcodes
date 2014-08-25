@@ -60,13 +60,13 @@ class Age implements ShortcodeInterface, MceDialogAwareInterface
     {
         return array(
             'date'   => array(
-                'type'  => self::ELEMENT_TEXT,
+                'type'  => MceDialogAwareInterface::ELEMENT_TEXT,
                 'label' => 'Date',
                 'name'  => 'date',
                 'value' => '',
             ),
             'append' => array(
-                'type'  => self::ELEMENT_TEXT,
+                'type'  => MceDialogAwareInterface::ELEMENT_TEXT,
                 'label' => 'append',
                 'name'  => 'append',
                 'value' => ' years old',

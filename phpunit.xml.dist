@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit
+    bootstrap                   ="../../../../tests/phpunit/includes/bootstrap.php"
+    backupGlobals               = "false"
+    backupStaticAttributes      = "false"
+    colors                      = "true"
+    convertErrorsToExceptions   = "true"
+    convertNoticesToExceptions  = "true"
+    convertWarningsToExceptions = "true"
+    processIsolation            = "false"
+    stopOnFailure               = "false"
+    syntaxCheck                 = "false"
+>
+    <testsuites>
+        <testsuite name="Mini Shortcodes Test suite">
+            <directory prefix="test_" suffix=".php">tests</directory>
+            <file>tests/InitPlugin.php</file>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory>.</directory>
+            <exclude>
+                <directory>mce/</directory>
+                <directory>tests/</directory>
+                <file>./MiniShortcodes.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

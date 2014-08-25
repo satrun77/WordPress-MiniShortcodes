@@ -338,64 +338,64 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     {
         return array(
             'header'    => array(
-                'type'  => self::ELEMENT_HEADER,
+                'type'  => MceDialogAwareInterface::ELEMENT_HEADER,
                 'title' => 'General',
             ),
             'format'    => array(
-                'type'     => self::ELEMENT_TEXTAREA,
+                'type'     => MceDialogAwareInterface::ELEMENT_TEXTAREA,
                 'label'    => 'Format',
                 'value'    => $this->defaultOptions['format'],
                 'datatype' => self::PARAM_FILTER_STRING,
             ),
             'class'     => array(
-                'type'     => self::ELEMENT_TEXT,
+                'type'     => MceDialogAwareInterface::ELEMENT_TEXT,
                 'label'    => 'class',
                 'value'    => $this->defaultOptions['class'],
                 'datatype' => self::PARAM_FILTER_STRING,
             ),
             'tag'       => array(
-                'type'     => self::ELEMENT_TEXT,
+                'type'     => MceDialogAwareInterface::ELEMENT_TEXT,
                 'label'    => 'tag',
                 'value'    => $this->defaultOptions['tag'],
                 'datatype' => self::PARAM_FILTER_STRING,
             ),
             'max'       => array(
-                'type'     => self::ELEMENT_TEXT,
+                'type'     => MceDialogAwareInterface::ELEMENT_TEXT,
                 'label'    => 'max',
                 'value'    => $this->defaultOptions['max'],
                 'datatype' => self::PARAM_FILTER_INT,
             ),
             'sort'      => array(
-                'type'    => self::ELEMENT_SELECT,
+                'type'    => MceDialogAwareInterface::ELEMENT_SELECT,
                 'label'   => 'sort',
                 'value'   => $this->defaultOptions['sort'],
                 'options' => array('asc', 'desc', 'rand')
             ),
             'before'    => array(
-                'type'     => self::ELEMENT_TEXTAREA,
+                'type'     => MceDialogAwareInterface::ELEMENT_TEXTAREA,
                 'label'    => 'before',
                 'value'    => $this->defaultOptions['before'],
                 'datatype' => self::PARAM_FILTER_STRING,
             ),
             'after'     => array(
-                'type'     => self::ELEMENT_TEXTAREA,
+                'type'     => MceDialogAwareInterface::ELEMENT_TEXTAREA,
                 'label'    => 'after',
                 'name'     => 'after',
                 'value'    => $this->defaultOptions['after'],
                 'datatype' => self::PARAM_FILTER_STRING,
             ),
             'delimiter' => array(
-                'type'     => self::ELEMENT_TEXT,
+                'type'     => MceDialogAwareInterface::ELEMENT_TEXT,
                 'label'    => 'delimiter',
                 'value'    => $this->defaultOptions['delimiter'],
                 'datatype' => self::PARAM_FILTER_STRING,
             ),
             'header2'   => array(
-                'type'  => self::ELEMENT_HEADER,
+                'type'  => MceDialogAwareInterface::ELEMENT_HEADER,
                 'title' => 'Items',
             ),
             'item'      => array(
-                'type'    => self::ELEMENT_ITEM,
+                'type'    => MceDialogAwareInterface::ELEMENT_ITEM,
                 'filters' => array(
                     self::PARAM_FILTER_STRING => array(
                         'label' => 'Text',
