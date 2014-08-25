@@ -16,7 +16,7 @@ namespace Moo\MiniShortcode;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-interface ShortCodeInterface
+interface ShortcodeInterface
 {
 
     public function shortcode($atts = array(), $content = null, $tag = '');
