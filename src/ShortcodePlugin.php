@@ -56,7 +56,7 @@ class ShortcodePlugin
 
             return $shortcode->shortcode($atts, $content, $tag);
         } catch (Exception $e) {
-            if (isset($atts['debug']) && $atts['debug'] == true) {
+            if (isset($atts['debug']) && $atts['debug'] === true) {
                 return $e->getMessage();
             }
 
