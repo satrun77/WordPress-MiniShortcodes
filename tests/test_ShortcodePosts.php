@@ -51,6 +51,9 @@ class MiniShortcodes_Tests_ShortcodePosts extends WP_UnitTestCase
         }
     }
 
+    /**
+     * @param integer $number
+     */
     protected function createShortcode($number, $args = array())
     {
         $posts = $this->factory->post->create_many($number, array('post_status' => 'publish'));
