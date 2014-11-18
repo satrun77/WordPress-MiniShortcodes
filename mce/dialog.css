@@ -1,13 +1,15 @@
+
 #msc-dialog .close {
     display:none;
 }
-
+#msc-dialog-body {
+    overflow: auto;
+}
 #msc-dialog .submitbox,.msc-item-list li {
     overflow:hidden;
 }
 
 #msc-dialog h2 {
-    background:transparent url(../../wp-includes/images/toggle-arrow.png) 0 5px no-repeat;
     border-bottom:1px solid #ddd;
     border-top:1px solid #ddd;
     cursor:pointer;
@@ -15,22 +17,22 @@
     padding:10px;
 }
 
-.msc-delete-item {
+#msc-dialog .msc-delete-item {
     float:left;
     width:7%;
 }
 
-.msc-delete-value {
+#msc-dialog .msc-delete-value {
     padding:2% 2% 0;
 }
 
-.msc-delete-value,.msc-item-value {
+#msc-dialog .msc-delete-value, #msc-dialog .msc-item-value {
     display:inline;
     float:left;
     margin-bottom:5px;
 }
 
-.msc-filter-options {
+#msc-dialog .msc-filter-options {
     background:#fcfcfc;
     border:1px solid #ddd;
     display:none;
@@ -39,20 +41,38 @@
     overflow: hidden;
 }
 
-.msc-filter-options h4 {
+#msc-dialog .msc-filter-options h4 {
     margin:0;
 }
 
-.msc-form {
+#msc-dialog .msc-form {
     margin:0 1% 10px;
 }
 
-.msc-form .msc-element input,.msc-form .msc-element select,.msc-form .msc-element textarea {
+#msc-dialog .msc-form .msc-element input,
+#msc-dialog .msc-form .msc-element select,
+#msc-dialog .msc-form .msc-element textarea {
     padding: 0.5%;
     width: 81%;
 }
 
-.msc-form .msc-element label {
+#msc-dialog .msc-item  input,
+#msc-dialog .msc-item  select,
+#msc-dialog .msc-item textarea  {
+    display: block;
+}
+
+#msc-dialog .msc-form .msc-element select,
+#msc-dialog .msc-form .msc-element textarea {
+    border: 1px solid #ddd;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+    background-color: #fff;
+    color: #333;
+    -webkit-transition: .05s border-color ease-in-out;
+    transition: .05s border-color ease-in-out;    
+}
+#msc-dialog .msc-form .msc-element label {
     float: left;
     font-weight: 700;
     padding: 1%;
@@ -60,59 +80,64 @@
     clear:left;
 }
 
-.msc-form .msc-element .msc-filter-options label  {
+#msc-dialog .msc-form .msc-element .msc-filter-options label  {
     width: 20%;
     margin-top: 8px;
 }
 
-.msc-form .msc-element .msc-filter-options input {
+#msc-dialog .msc-form .msc-element .msc-filter-options input {
     width:77%;
 }
 
-.msc-form .msc-element,.msc-item-value label,.msc-item-value input,.msc-item-value select,.msc-item-value select {
+#msc-dialog .msc-form .msc-element,
+#msc-dialog .msc-item-value label,
+#msc-dialog .msc-item-value input,
+#msc-dialog .msc-item-value select,
+#msc-dialog .msc-item-value select {
     margin-top:10px;
 }
 
-.msc-item-label {
+#msc-dialog .msc-item-label {
     border-bottom:1px solid #ddd;
     float:left;
     padding:1% 0;
     width:100%;
 }
 
-.msc-item-label h4 {
+#msc-dialog .msc-item-label h4 {
     float:left;
     margin:0;
 }
 
-.msc-item-list {
+#msc-dialog .msc-item-list {
     margin:0;
     overflow:hidden;
     padding:0;
 }
 
-.msc-item-value {
+#msc-dialog .msc-item-value {
     width:90%;
 }
 
-.msc-item-value label,.msc-filter-options label {
+#msc-dialog .msc-item-value label,
+#msc-dialog .msc-filter-options label {
     padding:5px 0;
 }
 
-.msc-item-value-inner {
+#msc-dialog .msc-item-value-inner {
     margin:0;
     overflow:hidden;
     padding:0;
 }
 
-.msc-item-value-wrapper {
+#msc-dialog .msc-item-value-wrapper {
     border-bottom:1px solid #ddd;
     border-left:1px solid #ddd;
     margin:0;
     padding-bottom:5px;
 }
 
-.msc-item-values-wrapper {
+#msc-dialog .msc-item-values-wrapper {
     clear:left;
     float:left;
     margin:0 0 0 5%;
@@ -120,25 +145,24 @@
     width:95%;
 }
 
-.msc-toolbar {
+#msc-dialog .msc-toolbar {
     border-bottom:1px solid #ddd;
     margin:0 0 5px;
     overflow:hidden;
     padding:0 0 5px;
 }
 
-.msc-toolbar li {
+#msc-dialog .msc-toolbar li {
     display:inline;
     float:right;
     margin:0;
 }
 
-.msc-toolbar li a {
+#msc-dialog .msc-toolbar li a {
     padding:0 5px;
 }
 
-.msc-update {
-    float:right;
-    padding-top: 8px;
-    padding-right: 1%;
+#msc-dialog .msc-update {
+    text-align:right !important;
+    margin: 8px 7px !important;
 }
