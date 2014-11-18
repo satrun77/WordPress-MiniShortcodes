@@ -113,13 +113,13 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
         }
 
         // The list
-        $output .= '<' . $this->options['tag'] . ' class="msc-list ' . $this->options['class'] . '">';
+        $output .= '<'.$this->options['tag'].' class="msc-list '.$this->options['class'].'">';
         foreach ($this->items as $key => $values) {
             if ($key < $this->options['max'] || $this->options['max'] == -1) {
                 $output .= $this->renderItem($key, $values);
             }
         }
-        $output .= '</' . $this->options['tag'] . '>';
+        $output .= '</'.$this->options['tag'].'>';
 
         // Output after the list
         if (!empty($this->options['after'])) {
@@ -164,7 +164,7 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
             if ($useKeys) {
                 $value = $index;
             }
-            $item = str_replace('{$' . ($index + 1) . '}', $this->filterValue($value, $index), $item);
+            $item = str_replace('{$'.($index + 1).'}', $this->filterValue($value, $index), $item);
         }
 
         return $item;
@@ -187,7 +187,7 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
         // Split the parameters from the filter name (first item)
         $params = explode(':', $this->filters[$index]);
         $filter = array_shift($params);
-        $method = 'filter' . ucfirst($filter);
+        $method = 'filter'.ucfirst($filter);
 
         // Execute filter method if exists and pass the parameters as the arguments with the raw value
         if (method_exists($this, $method)) {
@@ -369,7 +369,7 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
                 'type'    => MceDialogAwareInterface::ELEMENT_SELECT,
                 'label'   => 'sort',
                 'value'   => $this->defaultOptions['sort'],
-                'options' => array('asc', 'desc', 'rand')
+                'options' => array('asc', 'desc', 'rand'),
             ),
             'before'    => array(
                 'type'     => MceDialogAwareInterface::ELEMENT_TEXTAREA,
@@ -405,11 +405,10 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
                     ),
                     self::PARAM_FILTER_DATE   => array(
                         'label'  => 'Date',
-                        'params' => array('Date format')
+                        'params' => array('Date format'),
                     ),
                 ),
             ),
         );
     }
-
 }

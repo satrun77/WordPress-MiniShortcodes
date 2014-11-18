@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-include_once __DIR__ . '/../src/ShortcodePlugin.php';
+include_once __DIR__.'/../src/ShortcodePlugin.php';
 
 /**
  * MiniShortcodes_Test_Shortcodes to test the plugin shortcodes.
@@ -17,7 +17,6 @@ include_once __DIR__ . '/../src/ShortcodePlugin.php';
  */
 class MiniShortcodes_Test_Shortcodes extends WP_UnitTestCase
 {
-
     public function setUp()
     {
         parent::setUp();
@@ -63,9 +62,8 @@ class MiniShortcodes_Test_Shortcodes extends WP_UnitTestCase
         $i = $count;
         foreach ($xml->children() as $post) {
             $this->assertTrue(isset($post->h4->a));
-            $this->assertEquals('Post title ' . $i, $post->h4->a);
+            $this->assertEquals('Post title '.$i, $post->h4->a);
             $i--;
         }
     }
-
 }

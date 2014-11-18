@@ -23,7 +23,6 @@ use \Exception as Exception;
  */
 class Age implements ShortcodeInterface, MceDialogAwareInterface
 {
-
     /**
      * Shortcode callback method
      *
@@ -48,7 +47,7 @@ class Age implements ShortcodeInterface, MceDialogAwareInterface
 
         $append = isset($atts['append']) ? $atts['append'] : __(' years old');
 
-        return $diff . $append;
+        return $diff.$append;
     }
 
     /**
@@ -70,8 +69,7 @@ class Age implements ShortcodeInterface, MceDialogAwareInterface
                 'label' => 'append',
                 'name'  => 'append',
                 'value' => ' years old',
-            )
+            ),
         );
     }
-
 }

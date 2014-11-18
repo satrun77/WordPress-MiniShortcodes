@@ -11,6 +11,8 @@
 
 namespace Moo\MiniShortcode\Shortcode;
 
+use Moo\MiniShortcode\MceDialogAwareInterface;
+
 /**
  * A shortcode to display a list of photos from an instagram account
  *
@@ -24,6 +26,13 @@ class Instagram extends Listing
      * @var int
      */
     private $cacheTime = '86400';
+
+    /**
+     * An instance of http curl class
+     *
+     * @var \WP_Http_Curl
+     */
+    protected $http;
 
     public function __construct()
     {
@@ -51,7 +60,34 @@ class Instagram extends Listing
      */
     protected function getCacheFile()
     {
-        return __DIR__ . '/' . $this->options['client_id'] . 'instagram.txt';
+        return __DIR__.'/'.$this->options['client_id'].'instagram.txt';
+    }
+
+    /**
+     * Set instance of http curl
+     *
+     * @param  \WP_Http_Curl                          $http
+     * @return \Moo\MiniShortcode\Shortcode\Instagram
+     */
+    public function setHttpCurl($http)
+    {
+        $this->http = $http;
+
+        return $this;
+    }
+
+    /**
+     * Get instance of http curl
+     *
+     * @return \WP_Http_Curl
+     */
+    public function getHttpCurl()
+    {
+        if (null === $this->http) {
+            $this->http = new \WP_Http_Curl();
+        }
+
+        return $this->http;
     }
 
     /**
@@ -61,9 +97,14 @@ class Instagram extends Listing
      */
     protected function isCached()
     {
-        // Create new cache if file update timestamp is older than one day, or does not exists
+        // Does not exists
+        if (!file_exists($this->getCacheFile())) {
+            return false;
+        }
+
+        // File update timestamp is older than one day
         $timeDiff = time() - filemtime($this->getCacheFile());
-        if (!file_exists($this->getCacheFile()) || $timeDiff > $this->cacheTime) {
+        if ($timeDiff > $this->cacheTime) {
             return false;
         }
 
@@ -78,11 +119,12 @@ class Instagram extends Listing
      */
     protected function writeToCache($content)
     {
+        $result = false;
         if (file_put_contents($this->getCacheFile(), $content) !== false) {
-            return true;
+            $result = true;
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -101,7 +143,7 @@ class Instagram extends Listing
                 $this->items[$this->count] = array(
                     $row->link,
                     $row->images->thumbnail->url,
-                    $caption
+                    $caption,
                 );
                 $this->count++;
             }
@@ -125,12 +167,12 @@ class Instagram extends Listing
         $this->items = array();
 
         if (!$this->isCached()) {
-            $request = new WP_Http_Curl();
+            $request = $this->getHttpCurl();
             $response = $request->request($this->getUrl($this->options['user_id'], $this->options['client_id']), array(
                 'timeout' => 300,
                 'headers' => array(
                     'User-Agent' => filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'),
-                )
+                ),
             ));
 
             if (isset($response['body'])) {
@@ -170,5 +212,4 @@ class Instagram extends Listing
 
         return $elements;
     }
-
 }

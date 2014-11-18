@@ -30,7 +30,7 @@ class McePlugin
      *
      * @var string
      */
-    const VERSION = '1.3';
+    const VERSION = '1.4';
 
     /**
      * Set minishortcode main class
@@ -75,7 +75,7 @@ class McePlugin
      */
     public function registerHead()
     {
-        echo '<link rel="stylesheet" href="' . $this->getUrl('dialog.css') . '" type="text/css" />';
+        echo '<link rel="stylesheet" href="'.$this->getUrl('dialog.css').'" type="text/css" />';
     }
 
     /**
@@ -142,11 +142,9 @@ class McePlugin
      */
     public function registerPluginDialog()
     {
-        // Load JS file for the shortcode dialog
-        $output = "<script type='text/javascript' src='" . $this->getUrl('dialog.js') . "'></script>";
+        $output = '';
 
-        // Render the shortcode dialog
-        $output .= '<div style="display:none;"><div id="msc-dialog" tabindex="-1">';
+        $output .= '<div style="display:block;" id="msc-dialog-wrapper">';
         foreach ($this->plugin->getShortcodes() as $tag => $shortcode) {
             // Shortcode class must implements MceDialogAwareInterface
             if (!$shortcode instanceof MceDialogAwareInterface) {
@@ -155,13 +153,13 @@ class McePlugin
 
             // Render the shortcode form
             $tagName = strtolower($tag);
-            $output .= '<h2>' . __('Shortcode') . ': ' . $tag . '</h2>';
-            $output .= '<form id="msc-form-' . $tagName . '" class="msc-form close">';
+            $output .= '<h2>'.__('Shortcode').': '.$tag.'</h2>';
+            $output .= '<form id="msc-form-'.$tagName.'" class="msc-form close">';
             $output .= $this->renderDialogForm($shortcode->getFormElements());
-            $output .= '<div class="submitbox"><div class="msc-update"><input type="submit" value="' . __('Add') . '" class="button-primary msc-submit" data-tag="' . $tagName . '" name="msc-' . $tagName . '-submit"></div></div>';
+            $output .= '<div class="submitbox"><div class="msc-update"><input type="submit" value="'.__('Add').'" class="button-primary msc-submit" data-tag="'.$tagName.'" name="msc-'.$tagName.'-submit"></div></div>';
             $output .= '</form>';
         }
-        $output .= '</div>,/div>';
+        $output .= '</div>';
 
         echo $output;
     }
@@ -218,7 +216,7 @@ class McePlugin
     {
         $dataType = '';
         if (!empty($element['datatype'])) {
-            $dataType = 'data-datatype="' . $element['datatype'] . '"';
+            $dataType = 'data-datatype="'.$element['datatype'].'"';
         }
 
         return sprintf('<input id="msc-%s-field" type="text" name="%s" value="%s" %s/>', $name, $name, $element['value'], $dataType);
@@ -272,10 +270,10 @@ class McePlugin
     protected function renderItemElement($name, array $element)
     {
         $html = '<ul class="msc-toolbar">'
-                . '<li class="msc-add-item"><a href="#">' . __('Add Item') . '</a></li>'
-                . '<li class="msc-add-value"><a href="#">' . __('Add Value') . '</a></li>'
-                . '</ul>';
-        $html .= sprintf("<ul class='msc-item-list' id='msc-item-%s' data-filters='" . json_encode($element['filters']) . "'></ul>", $name);
+                .'<li class="msc-add-item"><a href="#">'.__('Add Item').'</a></li>'
+                .'<li class="msc-add-value"><a href="#">'.__('Add Value').'</a></li>'
+                .'</ul>';
+        $html .= sprintf("<ul class='msc-item-list' id='msc-item-%s' data-filters='".json_encode($element['filters'])."'></ul>", $name);
 
         return $html;
     }
@@ -290,8 +288,8 @@ class McePlugin
     protected function renderFilterElement($name, array $element)
     {
         $html = '<ul class="msc-toolbar">'
-                . '<li class="msc-add-filter"><a href="#">' . __('Add Filter') . '</a></li>'
-                . '</ul>';
+                .'<li class="msc-add-filter"><a href="#">'.__('Add Filter').'</a></li>'
+                .'</ul>';
         $html .= sprintf("<ul class='msc-item-list' id='msc-item-%s' data-filters='%s'></ul>", $name, json_encode($element['filters']));
 
         return $html;
@@ -317,7 +315,7 @@ class McePlugin
      */
     protected function getUrl($file)
     {
-        return plugin_dir_url(dirname(__FILE__)) . "mce/" . $file . "?v=" . self::VERSION;
+        return plugin_dir_url(dirname(__FILE__))."mce/".$file."?v=".self::VERSION;
     }
 
     /**
@@ -328,7 +326,6 @@ class McePlugin
      */
     protected function gePath($file)
     {
-        return plugin_dir_path(dirname(__FILE__)) . "mce/" . $file;
+        return plugin_dir_path(dirname(__FILE__))."mce/".$file;
     }
-
 }

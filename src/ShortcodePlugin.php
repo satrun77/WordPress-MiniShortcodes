@@ -28,6 +28,13 @@ class ShortcodePlugin
     protected $shortcodes = array();
 
     /**
+     * An instance of McePlugin class
+     *
+     * @var McePlugin
+     */
+    protected $mcePlugin;
+
+    /**
      * Constructor class. It setup the classes autoloader
      *
      */
@@ -50,13 +57,10 @@ class ShortcodePlugin
     {
         try {
             $shortcode = $this->getShortcode(substr($tag, 4));
-            if (!$shortcode) {
-                throw new Exception(sprintf("Ivalid shortcode '%s'.", $tag));
-            }
 
             return $shortcode->shortcode($atts, $content, $tag);
         } catch (Exception $e) {
-            if (isset($atts['debug']) && $atts['debug'] === true) {
+            if (isset($atts['debug']) && (boolean) $atts['debug'] === true) {
                 return $e->getMessage();
             }
 
@@ -74,16 +78,15 @@ class ShortcodePlugin
     {
         // Instantiate the shortcode if new
         if (!$this->hasShortcode($name)) {
-
             // Shortcode full name
             $tagName = $this->getTagName($name);
 
             // Instantiate a valid shortcode
-            $className = '\\' . __NAMESPACE__ . '\\Shortcode\\' . $name;
+            $className = '\\'.__NAMESPACE__.'\\Shortcode\\'.$name;
             $this->shortcodes[$name] = new $className();
 
             if (!$this->shortcodes[$name] instanceof ShortcodeInterface) {
-                throw new Exception(sprintf("The shortcode '%s' class must be an instance of %sShortcodeInterface.", __NAMESPACE__, $tagName));
+                throw new Exception(sprintf("The shortcode '%s' class must be an instance of %s\\ShortcodeInterface.", $tagName, __NAMESPACE__));
             }
 
             // Register the shortcode with wordpress
@@ -156,12 +159,22 @@ class ShortcodePlugin
     public function addMcePlugin($status = true)
     {
         $function = !$status ? 'remove_action' : 'add_action';
-        $mce = new McePlugin();
-        $mce->setPlugin($this);
+        $this->mcePlugin = new McePlugin();
+        $this->mcePlugin->setPlugin($this);
 
-        $function('init', array($mce, 'init'));
+        $function('init', array($this->mcePlugin, 'init'));
 
         return $this;
+    }
+
+    /**
+     * Get an instance of McePlugin class
+     *
+     * @return McePlugin
+     */
+    public function getMcePlugin()
+    {
+        return $this->mcePlugin;
     }
 
     /**
@@ -172,7 +185,7 @@ class ShortcodePlugin
      */
     protected function getTagName($name)
     {
-        return 'moo_' . strtolower($name);
+        return 'moo_'.strtolower($name);
     }
 
     /**
@@ -196,12 +209,11 @@ class ShortcodePlugin
         $class = str_replace(__NAMESPACE__, '', $class);
 
         // Load class file
-        $file = __DIR__ . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+        $file = __DIR__.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
         if (file_exists($file)) {
             return include $file;
         }
 
         throw new \Exception(sprintf("Unable to load the class '%s'.", $classFullname));
     }
-
 }
