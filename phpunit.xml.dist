@@ -17,6 +17,7 @@
         <testsuite name="Mini Shortcodes Test suite">
             <directory prefix="test_" suffix=".php">tests</directory>
             <file>tests/InitPlugin.php</file>
+            <file>tests/McePlugin.php</file>
         </testsuite>
     </testsuites>
 

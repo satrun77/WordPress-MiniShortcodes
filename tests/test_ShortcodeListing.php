@@ -16,13 +16,12 @@
  */
 class MiniShortcodes_Test_ShortcodeListing extends WP_UnitTestCase
 {
-
     public function setUp()
     {
         parent::setUp();
 
         // Load plugin autoload
-        include_once __DIR__ . '/../src/ShortcodePlugin.php';
+        include_once __DIR__.'/../src/ShortcodePlugin.php';
 
         new \Moo\MiniShortcode\ShortcodePlugin();
     }
@@ -61,5 +60,4 @@ class MiniShortcodes_Test_ShortcodeListing extends WP_UnitTestCase
         $elements = $shortcode->getFormElements();
         $this->assertCount(11, $elements);
     }
-
 }

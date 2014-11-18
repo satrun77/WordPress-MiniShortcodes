@@ -38,22 +38,22 @@ class Posts extends Listing
     public function __construct()
     {
         $this->defaultOptions['format'] = "<div class='msc-post'>"
-                . "<div class='date'><span>{\$1}</span><span>{\$2}</span></div>"
-                . "<h4><a href='{\$3}'>{\$4}</a></h4>"
-                . "{\$5}<a class='more' href='{\$3}'>read full entry &raquo;</a>"
-                . "<ul class='meta'>"
-                . "<li>{\$6}</li>"
-                . "<li>{\$7}</li>"
-                . "</ul>"
-                . "</div>";
+                ."<div class='date'><span>{\$1}</span><span>{\$2}</span></div>"
+                ."<h4><a href='{\$3}'>{\$4}</a></h4>"
+                ."{\$5}<a class='more' href='{\$3}'>read full entry &raquo;</a>"
+                ."<ul class='meta'>"
+                ."<li>{\$6}</li>"
+                ."<li>{\$7}</li>"
+                ."</ul>"
+                ."</div>";
 
         $this->filters = array(
-            self::PARAM_FILTER_TIME . ':j',
-            self::PARAM_FILTER_TIME . ':M',
+            self::PARAM_FILTER_TIME.':j',
+            self::PARAM_FILTER_TIME.':M',
             self::PARAM_FILTER_PERMALINK,
             self::PARAM_FILTER_TITLE,
             self::PARAM_FILTER_EXCERPT,
-            self::PARAM_FILTER_COMMENTSLINK . ':No comments:1 comment:% comments',
+            self::PARAM_FILTER_COMMENTSLINK.':No comments:1 comment:% comments',
             self::PARAM_FILTER_TAGLIST,
         );
     }
@@ -178,14 +178,14 @@ class Posts extends Listing
         $this->items = array();
 
         // WordPress query parameters
-        $query = 'post_status=publish&showposts=' . $this->options['max'];
+        $query = 'post_status=publish&showposts='.$this->options['max'];
 
         if ($this->options['sort'] == 'first') {
             $query .= '&orderby=id&order=ASC';
         } elseif ($this->options['sort'] == 'last') {
             $query .= '&orderby=id&order=DESC';
         } else {
-            $query .= '&orderby=' . $this->options['sort'];
+            $query .= '&orderby='.$this->options['sort'];
         }
 
         // Retrieve & count posts.
@@ -248,5 +248,4 @@ class Posts extends Listing
 
         return $elements;
     }
-
 }

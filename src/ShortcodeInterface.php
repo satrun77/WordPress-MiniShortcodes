@@ -18,6 +18,5 @@ namespace Moo\MiniShortcode;
  */
 interface ShortcodeInterface
 {
-
     public function shortcode($atts = array(), $content = null, $tag = '');
 }
