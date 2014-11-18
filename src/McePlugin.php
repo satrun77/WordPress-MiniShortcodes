@@ -36,7 +36,7 @@ class McePlugin
      * Set minishortcode main class
      *
      * @param  \Moo\MiniShortcode\ShortcodePlugin $plugin
-     * @return \Moo\MiniShortcode\ShortcodePlugin
+     * @return McePlugin
      */
     public function setPlugin(ShortcodePlugin $plugin)
     {
@@ -108,7 +108,7 @@ class McePlugin
      * Register the TinyMCE button
      *
      * @param  array  $buttons
-     * @return string
+     * @return string[]
      */
     public function registerButton($buttons)
     {

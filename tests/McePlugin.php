@@ -59,6 +59,9 @@ class MiniShortcodes_Test_McePlugin extends WP_UnitTestCase
         $this->assertContains('msc-form-listing', $dialog);
     }
 
+    /**
+     * @param string $tag
+     */
     protected function captureFilterOutput($tag, $args)
     {
         ob_start();

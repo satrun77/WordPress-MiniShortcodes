@@ -224,7 +224,7 @@ class Listing implements ShortcodeInterface, MceDialogAwareInterface
     /**
      * Filter a value to an integer
      *
-     * @param  mix $value
+     * @param  string $value
      * @return int
      */
     protected function filterInt($value)
