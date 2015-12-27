@@ -34,7 +34,7 @@ class MiniShortcodes_Tests_ShortcodePosts extends WP_UnitTestCase
         $i = $count;
         foreach ($xml->children() as $post) {
             $this->assertTrue(isset($post->h4->a));
-            $this->assertEquals('Post title '.$i, $post->h4->a);
+            $this->assertEquals('Post title '.$i, (string)$post->h4->a);
             $i--;
         }
     }
@@ -46,7 +46,7 @@ class MiniShortcodes_Tests_ShortcodePosts extends WP_UnitTestCase
         $i = 1;
         foreach ($xml->children() as $post) {
             $this->assertTrue(isset($post->h4->a));
-            $this->assertEquals('Post title '.$i, $post->h4->a);
+            $this->assertEquals('Post title '.$i, (string)$post->h4->a);
             $i++;
         }
     }
