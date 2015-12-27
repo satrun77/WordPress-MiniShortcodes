@@ -31,11 +31,11 @@ class MiniShortcodes_Tests_ShortcodePosts extends WP_UnitTestCase
         $count = 5;
         $xml = $this->createShortcode($count);
 
-        $i = $count;
+        $this->assertEquals($count, $xml->count());
+
         foreach ($xml->children() as $post) {
             $this->assertTrue(isset($post->h4->a));
-            $this->assertEquals('Post title '.$i, (string)$post->h4->a);
-            $i--;
+            $this->assertNotEmpty((string)$post->h4->a);
         }
     }
 
@@ -43,11 +43,13 @@ class MiniShortcodes_Tests_ShortcodePosts extends WP_UnitTestCase
     {
         $xml = $this->createShortcode(5, array('sort' => 'first'));
 
-        $i = 1;
-        foreach ($xml->children() as $post) {
+        $left = null;
+        foreach ($xml->children() as $key => $post) {
             $this->assertTrue(isset($post->h4->a));
-            $this->assertEquals('Post title '.$i, (string)$post->h4->a);
-            $i++;
+            if ($left != null) {
+                $this->assertGreaterThan($left, (string)$post->h4->a);
+            }
+            $left = (string)$post->h4->a;
         }
     }
 

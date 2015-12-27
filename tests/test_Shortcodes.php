@@ -59,11 +59,9 @@ class MiniShortcodes_Test_Shortcodes extends WP_UnitTestCase
         $this->assertEquals($count, $xml->count());
         $this->assertTrue(isset($xml->div));
 
-        $i = $count;
         foreach ($xml->children() as $post) {
             $this->assertTrue(isset($post->h4->a));
-            $this->assertEquals('Post title '.$i, (string)$post->h4->a);
-            $i--;
+            $this->assertNotEmpty((string)$post->h4->a);
         }
     }
 }
